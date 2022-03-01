@@ -1,6 +1,6 @@
 import React from "react";
 
-const Data = () => {
+const Data = (): React.ReactElement => {
   return (
     <div>
       <h1>Data Page</h1>

@@ -1,8 +1,9 @@
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { routes } from "../../routes";
 import "./Header.scss";
 
-const Header = () => {
+const Header = (): React.ReactElement => {
   const location = useLocation();
 
   return (

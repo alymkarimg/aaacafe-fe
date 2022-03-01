@@ -27,11 +27,11 @@ const Home = (): React.ReactElement => {
         })}
       </ul>
 
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form onSubmit={(e): Promise<void> => handleSubmit(e)}>
         <input
           type="text"
           value={data.name}
-          onChange={(e) =>
+          onChange={(e): void =>
             setData((data) => {
               e.persist();
               const { value } = e.target;

@@ -1,9 +1,10 @@
+import React from "react";
 import { StoreProvider } from "./redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { routes } from "./routes";
 import Layout from "./components/layout/Layout";
 
-const App = () => {
+const App = (): React.ReactElement => {
   return (
     <StoreProvider>
       <BrowserRouter>
