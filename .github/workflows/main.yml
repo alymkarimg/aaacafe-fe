@@ -34,10 +34,7 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-          
-      - name: Run linters
-        uses: wearerequired/lint-action@v1
-        with:
-          eslint: true
-          prettier: true
-    
+      - name: Intalling dependancies
+        run: npm install
+      - name: Lint TS
+        run : npm run lint:ts
