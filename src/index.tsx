@@ -5,12 +5,6 @@ import reportWebVitals from "./reportWebVitals";
 
 import "./index.scss";
 
-//
-
-const x = () => {
-  //
-};
-
 ReactDOM.render(
   <React.StrictMode>
     <App />
