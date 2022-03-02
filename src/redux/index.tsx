@@ -18,6 +18,7 @@ import thunk from "redux-thunk";
 import { initialState } from "./initial-state";
 import * as Auth from "./modules/auth";
 import * as Data from "./modules/data";
+import * as EditableAreas from "./modules/editableAreas";
 
 /**
  * Combines reducers from all modules
@@ -26,6 +27,7 @@ import * as Data from "./modules/data";
 const rootReducer = combineReducers({
   auth: Auth.reducer,
   data: Data.reducer,
+  editableAreas: EditableAreas.reducer,
 });
 
 /**
