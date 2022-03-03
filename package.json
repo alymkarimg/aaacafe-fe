@@ -23,7 +23,9 @@
     "redux-thunk": "^2.4.1",
     "sass": "^1.49.7",
     "typescript": "^4.5.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@ckeditor/ckeditor5-build-inline": "github:alymkarimg/Inline-Editor#b88a9840f77fafb8c7fda536eecffb75319541c8",
+    "@ckeditor/ckeditor5-react": "^3.0.1"
   },
   "scripts": {
     "postinstall": "husky install",
