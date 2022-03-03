@@ -46,7 +46,12 @@ const Home = (): React.ReactElement => {
           }
         />
         <button type="submit">Submit</button>
-        <EditableArea truncate={false} size = {{width: "100%", height: "100%"}} pathname="/" guid="ea_homepage" ></EditableArea>
+        <EditableArea
+          truncate={false}
+          size={{ width: "100%", height: "100%" }}
+          pathname="/"
+          guid="ea_homepage"
+        ></EditableArea>
       </form>
     </div>
   );
