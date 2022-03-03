@@ -9,5 +9,5 @@ import { initialState as edit } from "./modules/edit";
 export const initialState = {
   auth,
   data,
-  edit
+  edit,
 };
