@@ -10,9 +10,9 @@ import * as CKeditorMain from "@ckeditor/ckeditor5-react";
 import InlineEditor from "@ckeditor/ckeditor5-build-inline/build/ckeditor.js";
 import { useDispatch, useSelector } from "react-redux";
 import { State } from "../../redux";
-import { saveAllEditableAreas } from "../../redux/modules/edit";
 import { Link } from "react-router-dom";
 import "./EditableArea.scss";
+import TextField from "../textfield/Textfield";
 
 const { CKEditor } = CKeditorMain;
 
@@ -166,11 +166,12 @@ const EditableArea: React.FC<Props> = ({
   if (isEdit) {
     return (
       <article>
-        <input
+        <TextField
+          id={`editableAreaInput ${guid}`}
           type={"text"}
           onChange={handleChange}
           value={link}
-          placeholder={"URL"}
+          placeholder={"Url"}
         />
         <CKEditor
           data-pathname={pathname}
