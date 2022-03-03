@@ -1,0 +1,18 @@
+article {
+  position: relative;
+  input {
+    position: absolute;
+    font-size: 16px;
+    font-size: max(16px, 1em);
+    font-family: inherit;
+    padding: 0.25em 0.5em;
+    border: 2px solid grey;
+    border-radius: 4px;
+    z-index: 2;
+  }
+  .ck.ck-editor__editable_inline {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding-top: 1.5em;
+  }
+}

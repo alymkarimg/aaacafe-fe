@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { State } from "../../redux";
 import { saveAllEditableAreas } from "../../redux/modules/edit";
 import { Link } from "react-router-dom";
+import "./EditableArea.scss";
 
 const { CKEditor } = CKeditorMain;
 
@@ -164,12 +165,12 @@ const EditableArea: React.FC<Props> = ({
 
   if (isEdit) {
     return (
-      <Fragment>
+      <article>
         <input
           type={"text"}
           onChange={handleChange}
           value={link}
-          name={"url"}
+          placeholder={"URL"}
         />
         <CKEditor
           data-pathname={pathname}
@@ -192,12 +193,12 @@ const EditableArea: React.FC<Props> = ({
               };
           }}
         />
-      </Fragment>
+      </article>
     );
   } else {
     return (
       <Link to={link || "#"} className={`editableAreaContainer ${guid}`}>
-        <div dangerouslySetInnerHTML={{ __html: data }}></div>
+        <article dangerouslySetInnerHTML={{ __html: data }}></article>
       </Link>
     );
   }

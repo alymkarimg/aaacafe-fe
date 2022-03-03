@@ -14,7 +14,7 @@ const Header = (): React.ReactElement => {
   const isEdit = useSelector((state: State) => state.edit).edit;
 
   return (
-    <div className="header-container">
+    <header className="header-container">
       {routes.map((r, i) => {
         return (
           <Link
@@ -59,7 +59,7 @@ const Header = (): React.ReactElement => {
           Edit
         </button>
       )}
-    </div>
+    </header>
   );
 };
 
