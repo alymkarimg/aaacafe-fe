@@ -121,17 +121,17 @@ var editorConfig = {
 };
 
 interface Props {
-  truncate: boolean;
+  truncate?: number;
   pathname: string;
   guid: string;
-  size: object;
+  style: object;
 }
 
 const EditableArea: React.FC<Props> = ({
   pathname,
   guid,
-  truncate = false,
-  size = { width: "100%", height: "100%" },
+  truncate = undefined, // TODO: figure out why default props are not working
+  style = { width: "100%", height: "100%" },
 }) => {
   const editableAreas = useSelector((state: State) => state.edit).editableAreas;
   const isEdit = useSelector((state: State) => state.edit).edit;
@@ -163,9 +163,21 @@ const EditableArea: React.FC<Props> = ({
     setValues({ ...values, link: e.target.value });
   };
 
+  // add truncate functions to the Class string. AK not sure if this is Class?
+
+  if (!Object.getPrototypeOf(String).countWords) {
+    String.prototype.truncateWords = function (wordCount: number): string {
+      if (this.split(" ").length > wordCount) {
+        return this.split(" ").slice(0, wordCount).join(" ") + "...";
+      } else {
+        return this.toString();
+      }
+    };
+  }
+
   if (isEdit) {
     return (
-      <article>
+      <article style={style}>
         <TextField
           id={`editableAreaInput ${guid}`}
           type={"text"}
@@ -199,7 +211,11 @@ const EditableArea: React.FC<Props> = ({
   } else {
     return (
       <Link to={link || "#"} className={`editableAreaContainer ${guid}`}>
-        <article dangerouslySetInnerHTML={{ __html: data }}></article>
+        <article
+          dangerouslySetInnerHTML={{
+            __html: truncate ? data.truncateWords(truncate) : data,
+          }}
+        ></article>
       </Link>
     );
   }

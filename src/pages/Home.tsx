@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EditableArea from "../components/editableArea/EditableArea";
+import TextField from "../components/textfield/Textfield";
 import { State } from "../redux";
 import { IData, loadDataAction } from "../redux/modules/data";
 
@@ -47,8 +48,8 @@ const Home = (): React.ReactElement => {
         />
         <button type="submit">Submit</button>
         <EditableArea
-          truncate={false}
-          size={{ width: "100%", height: "100%" }}
+          truncate={undefined}
+          style={{ width: "100%", height: "100%" }}
           pathname="/"
           guid="ea_homepage"
         ></EditableArea>
