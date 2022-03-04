@@ -122,17 +122,12 @@ var editorConfig = {
 
 interface Props {
   truncate?: number;
+  style?: object;
   pathname: string;
   guid: string;
-  style: object;
 }
 
-const EditableArea: React.FC<Props> = ({
-  pathname,
-  guid,
-  truncate = undefined, // TODO: figure out why default props are not working
-  style = { width: "100%", height: "100%" },
-}) => {
+const EditableArea: React.FC<Props> = ({ truncate, style, pathname, guid }) => {
   const editableAreas = useSelector((state: State) => state.edit).editableAreas;
   const isEdit = useSelector((state: State) => state.edit).edit;
 
