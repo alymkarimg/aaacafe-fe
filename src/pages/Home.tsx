@@ -52,7 +52,7 @@ const Home = (): React.ReactElement => {
         {/* maxHeight: "300px" */}
         <AnimatedBanner
           guid="homepage_banner"
-          slidesPerPage={8}
+          slidesPerPage={2}
           autoplay={5000}
           style={{ maxHeight: "300px", width: "100%" }}
         />
