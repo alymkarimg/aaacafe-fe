@@ -123,7 +123,7 @@ var editorConfig = {
 interface Props {
   truncate?: number;
   style?: object;
-  pathname: string;
+  pathname?: string;
   guid: string;
 }
 
@@ -149,7 +149,7 @@ const EditableArea: React.FC<Props> = ({ truncate, style, pathname, guid }) => {
     if (editableArea) {
       setValues({ ...values, data: editableArea.data });
     } else {
-      // TODO: create editable area
+      // TODO: create editable area in db
     }
   }, [editableAreas]);
 

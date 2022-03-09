@@ -1,0 +1,27 @@
+.carousel {
+  overflow: hidden;
+}
+
+.inner {
+  white-space: nowrap;
+  transition: transform 0.3s;
+}
+
+.active.carousel-item {
+  border-color: yellow;
+}
+
+.carousel-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background-color: green;
+  color: #fff;
+}
+
+.indicators {
+  display: flex;
+  justify-content: center;
+  bottom: 10px;
+}

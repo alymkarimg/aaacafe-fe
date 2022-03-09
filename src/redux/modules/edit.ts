@@ -13,12 +13,25 @@ export interface StateProps {
   error: string | null;
   edit: boolean;
   editableAreas: IEditableAreas[];
+  animatedBanners: IAnimatedBanners[];
 }
 
 export interface IEditableAreas {
   pathname: string;
   guid: string;
   data: string;
+  //other props
+}
+
+export interface IAnimatedBannerItems {
+  media?: string;
+  //other props
+}
+
+export interface IAnimatedBanners {
+  pathname: string;
+  guid: string;
+  items: IAnimatedBannerItems[];
   //other props
 }
 
@@ -32,6 +45,30 @@ export const initialState: StateProps = {
   error: null,
   edit: false,
   editableAreas: [],
+  animatedBanners: [
+    {
+      pathname: "/",
+      guid: "homepage_banner",
+      items: [
+        {
+          media:
+            "https://images.pexels.com/photos/7919366/pexels-photo-7919366.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        },
+        {
+          media:
+            "https://images.pexels.com/photos/5618463/pexels-photo-5618463.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+        },
+        {
+          media:
+            "https://images.pexels.com/photos/5490740/pexels-photo-5490740.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        },
+        {
+          media:
+            "https://images.pexels.com/photos/5490740/pexels-photo-5490740.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        },
+      ],
+    },
+  ],
 };
 
 /**
@@ -131,12 +168,15 @@ export const loadDataAction =
 
     let error = initialState.error;
     let editableAreas = initialState.editableAreas;
+    let animatedBanners = initialState.animatedBanners;
 
     try {
       await (async function load(): Promise<void> {
         //set the api configs in services file and pass auth token for auth as header in that file
         const res = await axios.get<IEditableAreas[]>("/someurl");
         editableAreas = res.data;
+        const res2 = await axios.get<IAnimatedBanners[]>("/someurl");
+        animatedBanners = res2.data;
       })();
     } catch (e) {
       error = (e as Error).message;
@@ -147,6 +187,7 @@ export const loadDataAction =
       payload: {
         error,
         editableAreas,
+        animatedBanners,
       },
     });
 
