@@ -57,14 +57,14 @@ const Carousel: React.FC<CarouselProps> = ({
 
       // handle empty spaces
       if (
-        isEdit === false &&
+        !isEdit &&
         newIndex > React.Children.toArray(children).length - slidesPerPage &&
         newIndex != 0
       ) {
         imageIndex = 0;
         setActiveIndex(0);
       } else if (
-        isEdit === false &&
+        !isEdit &&
         newIndex < React.Children.toArray(children).length - slidesPerPage
       ) {
         imageIndex === React.Children.toArray(children).length - slidesPerPage;
@@ -93,7 +93,12 @@ const Carousel: React.FC<CarouselProps> = ({
     if (autoplay != 0) {
       const interval = setInterval(() => {
         if (!paused) {
-          updateIndex(activeIndex + 1);
+          updateIndex(
+            activeIndex <
+              React.Children.toArray(children).length - slidesPerPage
+              ? React.Children.toArray(children).length - slidesPerPage
+              : activeIndex + 1
+          );
         }
       }, autoplay);
       return () => {

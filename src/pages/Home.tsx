@@ -52,10 +52,16 @@ const Home = (): React.ReactElement => {
         {/* maxHeight: "300px" */}
         <AnimatedBanner
           guid="homepage_banner"
-          slidesPerPage={3}
-          autoplay={5000}
+          slidesPerPage={10}
+          autoplay={2000}
           style={{ maxHeight: "300px", width: "100%" }}
         />
+        <Carousel autoplay={2000} slidesPerPage={3}>
+          <CarouselItem>Item1</CarouselItem>
+          <CarouselItem>Item2</CarouselItem>
+          <CarouselItem>Item3</CarouselItem>
+          <CarouselItem>Item4</CarouselItem>
+        </Carousel>
       </form>
     </div>
   );

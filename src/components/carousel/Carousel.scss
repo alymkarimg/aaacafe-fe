@@ -16,6 +16,10 @@
   color: #fff;
 }
 
+button.active {
+  background-color: green;
+}
+
 .indicators {
   display: flex;
   justify-content: center;
