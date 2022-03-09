@@ -110,7 +110,7 @@ const AnimatedBanner: React.FC<Props> = ({
                 <EditableArea
                   guid={`banner ${index} ${guid} `}
                   // TODO: check why I need to give the editable area a color??
-                  style={{ minWidth: "150px", color: "black" }}
+                  style={{ minWidth: "100px", color: "black" }}
                 />
               </div>
             </CarouselItem>

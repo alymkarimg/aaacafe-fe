@@ -38,6 +38,7 @@ const Carousel: React.FC<CarouselProps> = ({
   updateAnimatedBannerIndex = undefined,
 }) => {
   const [activeIndex, setActiveIndex] = useState(index ? index : 0);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [paused, setPaused] = useState(autoplay ? false : true);
 
   const updateIndex = (newIndex: number): void => {
@@ -49,6 +50,33 @@ const Carousel: React.FC<CarouselProps> = ({
 
     updateAnimatedBannerIndex ? updateAnimatedBannerIndex(newIndex) : undefined;
     setActiveIndex(newIndex);
+
+    // TODO: Refactor this and make it much neater
+    if (slidesPerPage != 1) {
+      let imageIndex = newIndex;
+
+      // handle empty spaces
+      if (
+        isEdit === false &&
+        newIndex > React.Children.toArray(children).length - slidesPerPage &&
+        newIndex != 0
+      ) {
+        imageIndex = 0;
+      } else if (
+        isEdit === false &&
+        newIndex < React.Children.toArray(children).length - slidesPerPage
+      ) {
+        imageIndex === React.Children.toArray(children).length - slidesPerPage;
+      }
+      setActiveImageIndex(imageIndex);
+
+      if (imageIndex === 0) {
+        setActiveIndex(0);
+      }
+    } else {
+      // handle single slide case
+      setActiveImageIndex(newIndex);
+    }
   };
 
   useEffect(() => {
@@ -77,67 +105,66 @@ const Carousel: React.FC<CarouselProps> = ({
   //     onSwipedLeft: () => updateIndex(activeIndex + 1),
   //     onSwipedRight: () => updateIndex(activeIndex - 1)
   //   });
-  return (
-    <div
-      // {...handlers}
-      className="carousel"
-      style={style}
-      onMouseEnter={(): void => setPaused(true)}
-      onMouseLeave={(): void => setPaused(false)}
-    >
+  if (slidesPerPage > 0)
+    return (
       <div
-        className="inner"
-        style={{
-          transform: `translateX(-${activeIndex * (1 / slidesPerPage) * 100}%)`,
-        }}
+        // {...handlers}
+        className="carousel"
+        style={style}
+        onMouseEnter={(): void => setPaused(true)}
+        onMouseLeave={(): void => setPaused(false)}
       >
-        {React.Children.map(children, (child, index) => {
-          return React.cloneElement(child as React.ReactElement, {
-            style: {
-              width: `${(1 / slidesPerPage) * 100}%`,
-              border:
-                isEdit && index === activeIndex ? "5px solid yellow" : "none",
-            },
-          });
-        })}
-      </div>
-      <div className="indicators">
-        <button
-          onClick={(): void => {
-            updateIndex(activeIndex - 1);
-            // updateIndex(Math.max(activeIndex - slidesPerPage, 0));
+        <div
+          className="inner"
+          style={{
+            transform: `translateX(-${
+              activeImageIndex * (1 / slidesPerPage) * 100
+            }%)`,
           }}
         >
-          Prev
-        </button>
-        {React.Children.map(children, (child, index) => {
-          return (
-            <button
-              className={`${index === activeIndex ? "active" : ""}`}
-              onClick={(): void => {
-                updateIndex(index);
-              }}
-            >
-              {index + 1}
-            </button>
-          );
-        })}
-        <button
-          onClick={(): void => {
-            updateIndex(activeIndex + 1);
-            // updateIndex(
-            //   Math.min(
-            //     activeIndex + slidesPerPage,
-            //     React.Children.toArray(children).length - slidesPerPage
-            //   )
-            // );
-          }}
-        >
-          Next
-        </button>
+          {React.Children.map(children, (child, index) => {
+            return React.cloneElement(child as React.ReactElement, {
+              style: {
+                width: `${(1 / slidesPerPage) * 100}%`,
+                border:
+                  isEdit && index === activeIndex
+                    ? "5px solid yellow"
+                    : undefined,
+              },
+            });
+          })}
+        </div>
+        <div className="indicators">
+          <button
+            onClick={(): void => {
+              updateIndex(activeIndex - 1);
+            }}
+          >
+            Prev
+          </button>
+          {React.Children.map(children, (child, index) => {
+            return (
+              <button
+                className={`${index === activeIndex ? "active" : ""}`}
+                onClick={(): void => {
+                  updateIndex(index);
+                }}
+              >
+                {index + 1}
+              </button>
+            );
+          })}
+          <button
+            onClick={(): void => {
+              updateIndex(activeIndex + 1);
+            }}
+          >
+            Next
+          </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  return <div>Banner wont work with 0 slides per page</div>;
 };
 
 export default Carousel;

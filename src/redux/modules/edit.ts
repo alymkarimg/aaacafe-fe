@@ -170,17 +170,17 @@ export const loadDataAction =
     let editableAreas = initialState.editableAreas;
     let animatedBanners = initialState.animatedBanners;
 
-    try {
-      await (async function load(): Promise<void> {
-        //set the api configs in services file and pass auth token for auth as header in that file
-        const res = await axios.get<IEditableAreas[]>("/someurl");
-        editableAreas = res.data;
-        const res2 = await axios.get<IAnimatedBanners[]>("/someurl");
-        animatedBanners = res2.data;
-      })();
-    } catch (e) {
-      error = (e as Error).message;
-    }
+    // try {
+    //   await (async function load(): Promise<void> {
+    //     //set the api configs in services file and pass auth token for auth as header in that file
+    //     const res = await axios.get<IEditableAreas[]>("/someurl");
+    //     editableAreas = res.data;
+    //     const res2 = await axios.get<IAnimatedBanners[]>("/someurl");
+    //     animatedBanners = res2.data;
+    //   })();
+    // } catch (e) {
+    //   error = (e as Error).message;
+    // }
 
     dispatch({
       type: Action.DATA_LOAD,
