@@ -62,15 +62,25 @@ const Carousel: React.FC<CarouselProps> = ({
         newIndex != 0
       ) {
         imageIndex = 0;
+        setActiveIndex(0);
       } else if (
         isEdit === false &&
         newIndex < React.Children.toArray(children).length - slidesPerPage
       ) {
         imageIndex === React.Children.toArray(children).length - slidesPerPage;
       }
+
+      if (
+        isEdit === true &&
+        newIndex >= React.Children.toArray(children).length - slidesPerPage &&
+        newIndex != 0
+      ) {
+        imageIndex = React.Children.toArray(children).length - slidesPerPage;
+      }
+
       setActiveImageIndex(imageIndex);
 
-      if (imageIndex === 0) {
+      if (newIndex === 0) {
         setActiveIndex(0);
       }
     } else {
@@ -143,16 +153,17 @@ const Carousel: React.FC<CarouselProps> = ({
             Prev
           </button>
           {React.Children.map(children, (child, index) => {
-            return (
-              <button
-                className={`${index === activeIndex ? "active" : ""}`}
-                onClick={(): void => {
-                  updateIndex(index);
-                }}
-              >
-                {index + 1}
-              </button>
-            );
+            if (index != React.Children.toArray(children).length - 1)
+              return (
+                <button
+                  className={`${index === activeIndex ? "active" : ""}`}
+                  onClick={(): void => {
+                    updateIndex(index);
+                  }}
+                >
+                  {index + 1}
+                </button>
+              );
           })}
           <button
             onClick={(): void => {
