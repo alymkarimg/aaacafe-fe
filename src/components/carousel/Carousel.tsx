@@ -94,7 +94,7 @@ const Carousel: React.FC<CarouselProps> = ({
       const interval = setInterval(() => {
         if (!paused) {
           updateIndex(
-            activeIndex <
+            activeIndex >
               React.Children.toArray(children).length - slidesPerPage
               ? React.Children.toArray(children).length - slidesPerPage
               : activeIndex + 1
