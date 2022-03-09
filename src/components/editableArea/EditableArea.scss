@@ -6,7 +6,10 @@ article {
   }
   .ck.ck-editor__editable_inline {
     background-color: white;
+    position: relative;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding-top: 1.5em;
+    z-index: 2;
+    top: -20px;
   }
 }

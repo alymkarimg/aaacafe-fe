@@ -12,26 +12,28 @@ export interface StateProps {
   loading: number;
   error: string | null;
   edit: boolean;
-  editableAreas: IEditableAreas[];
-  animatedBanners: IAnimatedBanners[];
+  editableAreas: IEditableArea[];
+  animatedBanners: IAnimatedBanner[];
 }
 
-export interface IEditableAreas {
+export interface IEditableArea {
   pathname: string;
   guid: string;
   data: string;
   //other props
 }
 
-export interface IAnimatedBannerItems {
+export interface IAnimatedBannerItem {
   media?: string;
   //other props
 }
 
-export interface IAnimatedBanners {
+export interface IAnimatedBanner {
   pathname: string;
   guid: string;
-  items: IAnimatedBannerItems[];
+  autoPlay?: number;
+  slidesPerPage?: number;
+  items: IAnimatedBannerItem[];
   //other props
 }
 
@@ -49,6 +51,8 @@ export const initialState: StateProps = {
     {
       pathname: "/",
       guid: "homepage_banner",
+      autoPlay: undefined,
+      slidesPerPage: undefined,
       items: [
         {
           media:
@@ -211,7 +215,7 @@ export const saveAllEditableAreas =
     try {
       await (async function load(): Promise<void> {
         //set the api configs in services file and pass auth token for auth as header in that file
-        const res = await axios.get<IEditableAreas[]>("/someurl");
+        const res = await axios.get<IEditableArea[]>("/someurl");
         editableAreas = res.data;
       })();
     } catch (e) {

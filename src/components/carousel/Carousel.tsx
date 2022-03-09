@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Button from "../button/Button";
 // import { useSwipeable } from "react-swipeable";
 import "./Carousel.scss";
 
@@ -149,38 +150,41 @@ const Carousel: React.FC<CarouselProps> = ({
             });
           })}
         </div>
+        <Button
+          title="<"
+          className="left-indicator"
+          onClick={(): void => {
+            updateIndex(activeIndex - 1);
+          }}
+        >
+          Prev
+        </Button>
         <div className="indicators">
-          <button
-            onClick={(): void => {
-              updateIndex(activeIndex - 1);
-            }}
-          >
-            Prev
-          </button>
           {React.Children.map(children, (child, index) => {
             if (
               isEdit ||
               index <= React.Children.toArray(children).length - slidesPerPage
             )
               return (
-                <button
+                <Button
+                  title={(index + 1).toString()}
                   className={`${index === activeIndex ? "active" : ""}`}
                   onClick={(): void => {
                     updateIndex(index);
                   }}
-                >
-                  {index + 1}
-                </button>
+                />
               );
           })}
-          <button
-            onClick={(): void => {
-              updateIndex(activeIndex + 1);
-            }}
-          >
-            Next
-          </button>
         </div>
+        <Button
+          title=">"
+          className="right-indicator"
+          onClick={(): void => {
+            updateIndex(activeIndex + 1);
+          }}
+        >
+          Next
+        </Button>
       </div>
     );
   return <div>Banner wont work with 0 slides per page</div>;

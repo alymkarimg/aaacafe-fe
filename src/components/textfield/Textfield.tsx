@@ -5,7 +5,9 @@ interface Props {
   type: string;
   id: string;
   placeholder: string;
-  value: string;
+  value?: string;
+  pattern?: string;
+  label?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -14,10 +16,12 @@ const TextField: React.FC<Props> = ({
   id,
   placeholder,
   value,
+  pattern,
+  label = true,
   onChange,
 }) => {
   return (
-    <div className="form__group">
+    <div className={label ? "form__group" : undefined}>
       <input
         type={type}
         id={id}
@@ -25,10 +29,13 @@ const TextField: React.FC<Props> = ({
         onChange={onChange}
         className="form__field"
         placeholder={placeholder}
+        pattern={pattern}
       />
-      <label htmlFor={id} className="form__label">
-        {placeholder}
-      </label>
+      {label && (
+        <label htmlFor={id} className="form__label">
+          {placeholder}
+        </label>
+      )}
     </div>
   );
 };

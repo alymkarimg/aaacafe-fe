@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import "./AnimatedBanner.scss";
 import Carousel, { CarouselItem } from "../Carousel";
 import { useSelector } from "react-redux";
 import { State } from "../../../redux";
 import { useLocation } from "react-router";
-import { IAnimatedBannerItems } from "../../../redux/modules/edit";
+import { IAnimatedBannerItem } from "../../../redux/modules/edit";
 import EditableArea from "../../editableArea/EditableArea";
+import Button from "../../button/Button";
+import TextField from "../../textfield/Textfield";
 
 interface Props {
   guid: string;
@@ -31,7 +33,7 @@ const AnimatedBanner: React.FC<Props> = ({
   const location = useLocation();
 
   const [values, setValues] = useState({
-    items: [] as IAnimatedBannerItems[],
+    items: [] as IAnimatedBannerItem[],
     url: pathname ? pathname : location.pathname,
     activeIndex: 0,
   });
@@ -80,6 +82,10 @@ const AnimatedBanner: React.FC<Props> = ({
     // TODO: add image/video uploading mechanism
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setValues({ ...values });
+  };
+
   return (
     <>
       <Carousel
@@ -93,7 +99,7 @@ const AnimatedBanner: React.FC<Props> = ({
         autoplay={isEdit ? 0 : autoplay ? autoplay : 0}
       >
         {/* TODO: add support for video format */}
-        {items.map((q: IAnimatedBannerItems, index: number) => {
+        {items.map((q: IAnimatedBannerItem, index: number) => {
           return (
             <CarouselItem key={`carouselItem ${guid} ${index}`}>
               <img
@@ -121,11 +127,27 @@ const AnimatedBanner: React.FC<Props> = ({
         <div>
           <div className="bannerEditorButtons">
             {/* Add media uploader functionaility */}
-            <div>
-              <button onClick={uploadMedia}>Upload media</button>
-              <button onClick={addSlide}>Add Slide</button>
-              <button onClick={removeSlide}>Remove Slide</button>
-            </div>
+            <Button title="Upload Media" onClick={uploadMedia} />
+            <Button title="Add Slide" onClick={addSlide} />
+            <Button title="Remove Slide" onClick={removeSlide} />
+            <TextField
+              id={`animatedBanner AutoPlay ${guid}`}
+              type={"text"}
+              pattern={"[0-9]"}
+              label={false}
+              onChange={handleChange}
+              value={undefined}
+              placeholder={"Autoplay"}
+            />
+            <TextField
+              id={`animatedBanner SlidesPerPage ${guid}`}
+              type={"text"}
+              pattern={"[0-9]"}
+              label={false}
+              onChange={handleChange}
+              value={undefined}
+              placeholder={"Slides per page"}
+            />
           </div>
         </div>
       )}
