@@ -153,7 +153,10 @@ const Carousel: React.FC<CarouselProps> = ({
             Prev
           </button>
           {React.Children.map(children, (child, index) => {
-            if (index != React.Children.toArray(children).length - 1)
+            if (
+              isEdit ||
+              index <= React.Children.toArray(children).length - slidesPerPage
+            )
               return (
                 <button
                   className={`${index === activeIndex ? "active" : ""}`}
