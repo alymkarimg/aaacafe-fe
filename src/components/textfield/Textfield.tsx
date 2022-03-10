@@ -6,7 +6,7 @@ interface Props {
   id: string;
   placeholder: string;
   value?: string;
-  pattern?: string;
+  min?: number;
   label?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -16,7 +16,7 @@ const TextField: React.FC<Props> = ({
   id,
   placeholder,
   value,
-  pattern,
+  min,
   label = true,
   onChange,
 }) => {
@@ -29,7 +29,7 @@ const TextField: React.FC<Props> = ({
         onChange={onChange}
         className="form__field"
         placeholder={placeholder}
-        pattern={pattern}
+        min={min}
       />
       {label && (
         <label htmlFor={id} className="form__label">

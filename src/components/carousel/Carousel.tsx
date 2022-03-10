@@ -133,6 +133,7 @@ const Carousel: React.FC<CarouselProps> = ({
         <div
           className="inner"
           style={{
+            height: "100%",
             transform: `translateX(-${
               activeImageIndex * (1 / slidesPerPage) * 100
             }%)`,
@@ -141,6 +142,7 @@ const Carousel: React.FC<CarouselProps> = ({
           {React.Children.map(children, (child, index) => {
             return React.cloneElement(child as React.ReactElement, {
               style: {
+                height: "100%",
                 width: `${(1 / slidesPerPage) * 100}%`,
                 border:
                   isEdit && index === activeIndex

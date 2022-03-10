@@ -31,8 +31,8 @@ export interface IAnimatedBannerItem {
 export interface IAnimatedBanner {
   pathname: string;
   guid: string;
-  autoPlay?: number;
-  slidesPerPage?: number;
+  autoplay: number;
+  slidesPerPage: number;
   items: IAnimatedBannerItem[];
   //other props
 }
@@ -51,8 +51,8 @@ export const initialState: StateProps = {
     {
       pathname: "/",
       guid: "homepage_banner",
-      autoPlay: undefined,
-      slidesPerPage: undefined,
+      autoplay: 0,
+      slidesPerPage: 1,
       items: [
         {
           media:

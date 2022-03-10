@@ -3,4 +3,13 @@
   justify-content: center;
   position: relative;
   top: -5px;
+
+  button {
+    background-color: rgb(0, 0, 0);
+    color: white;
+  }
+
+  * {
+    margin: 0px 2px;
+  }
 }

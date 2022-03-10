@@ -13,17 +13,9 @@ interface Props {
   guid: string;
   pathname?: string;
   style?: object;
-  autoplay?: number;
-  slidesPerPage?: number;
 }
 
-const AnimatedBanner: React.FC<Props> = ({
-  guid,
-  pathname,
-  style,
-  autoplay = 0,
-  slidesPerPage,
-}) => {
+const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
   const AnimatedBanners = useSelector(
     (state: State) => state.edit
   ).animatedBanners;
@@ -32,13 +24,21 @@ const AnimatedBanner: React.FC<Props> = ({
 
   const location = useLocation();
 
-  const [values, setValues] = useState({
-    items: [] as IAnimatedBannerItem[],
+  const [values, setValues] = useState<{
+    items: IAnimatedBannerItem[];
+    url: string;
+    activeIndex: number;
+    slidesPerPage?: number;
+    autoplay: number;
+  }>({
+    items: [],
     url: pathname ? pathname : location.pathname,
     activeIndex: 0,
+    slidesPerPage: 1,
+    autoplay: 0,
   });
 
-  const { items, activeIndex, url } = values;
+  const { items, activeIndex, url, slidesPerPage, autoplay } = values;
 
   // find data from array of models and populate on page load
   useEffect(() => {
@@ -46,7 +46,12 @@ const AnimatedBanner: React.FC<Props> = ({
       return q.pathname === url && q.guid === guid;
     });
     if (animatedBanner) {
-      setValues({ ...values, items: animatedBanner.items });
+      setValues({
+        ...values,
+        items: animatedBanner.items,
+        slidesPerPage: animatedBanner.slidesPerPage,
+        autoplay: animatedBanner.autoplay,
+      });
     } else {
       // TODO: create animated banner in db
     }
@@ -82,8 +87,21 @@ const AnimatedBanner: React.FC<Props> = ({
     // TODO: add image/video uploading mechanism
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setValues({ ...values });
+  const handleChangeAutoplay = (e: ChangeEvent<HTMLInputElement>): void => {
+    setValues({ ...values, autoplay: parseInt(e.target.value, 10) });
+  };
+
+  const handleChangeSlidesPerPage = (
+    e: ChangeEvent<HTMLInputElement>
+  ): void => {
+    setValues({
+      ...values,
+      slidesPerPage:
+        parseInt(e.target.value, 10) > 0
+          ? parseInt(e.target.value, 10)
+          : undefined,
+      activeIndex: 0,
+    });
   };
 
   return (
@@ -100,12 +118,21 @@ const AnimatedBanner: React.FC<Props> = ({
       >
         {/* TODO: add support for video format */}
         {items.map((q: IAnimatedBannerItem, index: number) => {
+          const backgroundImage = "https://via.placeholder.com/1500";
           return (
             <CarouselItem key={`carouselItem ${guid} ${index}`}>
-              <img
-                src={q.media ? q.media : "https://via.placeholder.com/1500"}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                alt=""
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "none",
+                  backgroundImage: q.media
+                    ? "url(" + q.media + ")"
+                    : "url(" + backgroundImage + ")",
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                }}
               />
               <div
                 style={{
@@ -132,20 +159,20 @@ const AnimatedBanner: React.FC<Props> = ({
             <Button title="Remove Slide" onClick={removeSlide} />
             <TextField
               id={`animatedBanner AutoPlay ${guid}`}
-              type={"text"}
-              pattern={"[0-9]"}
+              type={"number"}
+              min={0}
               label={false}
-              onChange={handleChange}
-              value={undefined}
+              onChange={handleChangeAutoplay}
+              value={autoplay.toString()}
               placeholder={"Autoplay"}
             />
             <TextField
               id={`animatedBanner SlidesPerPage ${guid}`}
-              type={"text"}
-              pattern={"[0-9]"}
+              type={"number"}
+              min={1}
               label={false}
-              onChange={handleChange}
-              value={undefined}
+              onChange={handleChangeSlidesPerPage}
+              value={slidesPerPage ? slidesPerPage.toString() : undefined}
               placeholder={"Slides per page"}
             />
           </div>
