@@ -142,8 +142,8 @@ const Carousel: React.FC<CarouselProps> = ({
           {React.Children.map(children, (child, index) => {
             return React.cloneElement(child as React.ReactElement, {
               style: {
-                height: "100%",
-                width: `${(1 / slidesPerPage) * 100}%`,
+                height: "calc(100%)",
+                width: `calc(${(1 / slidesPerPage) * 100}%)`,
                 border:
                   isEdit && index === activeIndex
                     ? "5px solid yellow"

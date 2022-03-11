@@ -94,10 +94,11 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
   const handleChangeSlidesPerPage = (
     e: ChangeEvent<HTMLInputElement>
   ): void => {
+    // TODO: check that max slides is working as intended
     setValues({
       ...values,
       slidesPerPage:
-        parseInt(e.target.value, 10) > 0
+        parseInt(e.target.value, 10) > 0 && parseInt(e.target.value, 10) <= 25
           ? parseInt(e.target.value, 10)
           : undefined,
       activeIndex: 0,
@@ -161,7 +162,7 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
               id={`animatedBanner AutoPlay ${guid}`}
               type={"number"}
               min={0}
-              label={false}
+              label={"AutoPlay (ms)"}
               onChange={handleChangeAutoplay}
               value={autoplay.toString()}
               placeholder={"Autoplay"}
@@ -170,7 +171,8 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
               id={`animatedBanner SlidesPerPage ${guid}`}
               type={"number"}
               min={1}
-              label={false}
+              max={25}
+              label={"Slides per page"}
               onChange={handleChangeSlidesPerPage}
               value={slidesPerPage ? slidesPerPage.toString() : undefined}
               placeholder={"Slides per page"}

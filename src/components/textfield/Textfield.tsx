@@ -7,7 +7,8 @@ interface Props {
   placeholder: string;
   value?: string;
   min?: number;
-  label?: boolean;
+  max?: number;
+  label?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -17,25 +18,23 @@ const TextField: React.FC<Props> = ({
   placeholder,
   value,
   min,
-  label = true,
+  max,
+  label,
   onChange,
 }) => {
   return (
-    <div className={label ? "form__group" : undefined}>
+    <div className={"form__group"}>
       <input
         type={type}
         id={id}
         value={value}
         onChange={onChange}
-        className="form__field"
+        className={"form__field"}
         placeholder={placeholder}
         min={min}
+        max={max}
       />
-      {label && (
-        <label htmlFor={id} className="form__label">
-          {placeholder}
-        </label>
-      )}
+      {label && <label htmlFor={id}>{label}</label>}
     </div>
   );
 };

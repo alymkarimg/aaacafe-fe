@@ -178,6 +178,7 @@ const EditableArea: React.FC<Props> = ({ truncate, style, pathname, guid }) => {
           type={"text"}
           onChange={handleChange}
           value={link}
+          label={"Url"}
           placeholder={"Url"}
         />
         <CKEditor

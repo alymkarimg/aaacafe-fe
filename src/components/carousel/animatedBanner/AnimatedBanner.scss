@@ -9,6 +9,20 @@
     color: white;
   }
 
+  input::placeholder {
+    color: transparent;
+  }
+
+  input {
+    color: white;
+    background-color: black;
+  }
+
+  .form__group {
+    top: -15px;
+    position: relative;
+  }
+
   * {
     margin: 0px 2px;
   }
