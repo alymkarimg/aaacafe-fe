@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "../header/Header";
-import "./Layout.scss";
 
 type LayoutProps = {
   children: React.ReactElement;
