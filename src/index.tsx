@@ -5,6 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 
 import "./index.scss";
 
+// TODO: Remove this comment
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
