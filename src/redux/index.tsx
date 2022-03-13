@@ -19,6 +19,7 @@ import { initialState } from "./initial-state";
 import * as Auth from "./modules/auth";
 import * as Data from "./modules/data";
 import * as Edit from "./modules/edit";
+import * as Toast from "./modules/toast";
 
 /**
  * Combines reducers from all modules
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   auth: Auth.reducer,
   data: Data.reducer,
   edit: Edit.reducer,
+  toast: Toast.reducer,
 });
 
 /**

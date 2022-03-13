@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 import { useDispatch, useSelector } from "react-redux";
 import { State } from "../../redux";
@@ -13,8 +13,17 @@ import {
 const Header = (): React.ReactElement => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = new URLSearchParams(location.search);
 
   const isEdit = useSelector((state: State) => state.edit).edit;
+
+  // toggle edit mode to true if querystring exists but page is not in edit mode
+  useEffect(() => {
+    if (params.get("edit") === "true" && isEdit === false) {
+      dispatch(toggleEditMode("test", "test"));
+    }
+  }, []);
 
   return (
     <header className="header-container">
@@ -45,7 +54,11 @@ const Header = (): React.ReactElement => {
             // save all animatedBanners
             dispatch(saveAllAnimatedBanners("test", "test"));
 
-            // TODO: append ?edit=true to querystring
+            // append ?edit=true to querystring
+            navigate({
+              pathname: location.pathname,
+              search: undefined,
+            });
           }}
         >
           Save
@@ -59,7 +72,11 @@ const Header = (): React.ReactElement => {
             // toggle mode
             dispatch(toggleEditMode("test", "test"));
 
-            // TODO: remove ?edit=true to querystring
+            // remove ?edit=true to querystring
+            navigate({
+              pathname: location.pathname,
+              search: "?edit=true",
+            });
           }}
         >
           Edit

@@ -18,50 +18,101 @@ const { CKEditor } = CKeditorMain;
 
 var editorConfig = {
   toolbar: [
-    "link",
-    "list",
+    // "simpleBox",
     "alignment",
-    "blockQuote",
-    "bold",
-    "code",
-    "codeBlock",
-    "selectAll",
     "undo",
     "redo",
+    "blockQuote",
+    "bold",
+    //"code",
+    "codeBlock",
+    "selectAll",
+    "findAndReplace",
     "fontBackgroundColor",
     "fontColor",
     "fontFamily",
     "fontSize",
     "heading",
+    // "highlight:yellowMarker",
+    // "highlight:greenMarker",
+    // "highlight:pinkMarker",
+    // "highlight:blueMarker",
+    // "highlight:redPen",
+    // "highlight:greenPen",
+    // "removeHighlight",
     "highlight",
-    "removeHighlight",
     "horizontalLine",
-    "imageUpload",
+    "htmlEmbed",
+    "uploadImage",
+    // "imageUpload",
+    // "insertImage",
+    // "imageInsert",
+    // "resizeImage:original",
+    // "resizeImage:25",
+    // "resizeImage:50",
+    // "resizeImage:75",
+    // "imageResize",
+    // "imageStyle:inline",
+    // "imageStyle:alignLeft",
+    // "imageStyle:alignRight",
+    // "imageStyle:alignCenter",
+    // "imageStyle:alignBlockLeft",
+    // "imageStyle:alignBlockRight",
+    // "imageStyle:block",
+    // "imageStyle:side",
+    // "imageStyle:wrapText",
+    // "imageStyle:breakText",
     "indent",
     "outdent",
     "italic",
     "link",
+    // "linkImage", // not sure what this does
     "numberedList",
     "bulletedList",
     "mediaEmbed",
     "pageBreak",
     "removeFormat",
+    // "sourceEditing", // not sure what this does
     "specialCharacters",
     "strikethrough",
     "subscript",
     "superscript",
     "insertTable",
+    // "tableColumn",
+    // "tableRow",
+    // "mergeTableCells",
+    // "toggleTableCaption",
+    // "tableCellProperties",
+    // "tableProperties",
+    // "textPartLanguage",
     "todoList",
     "underline",
-    "htmlEmbed",
-    "simpleBox",
   ],
   image: {
     toolbar: [
-      "imageStyle:full",
+      "resizeImage",
+      "imageStyle:inline",
+      "imageStyle:alignLeft",
+      "imageStyle:alignRight",
+      "imageStyle:alignCenter",
+      "imageStyle:alignBlockLeft",
+      "imageStyle:alignBlockRight",
+      "imageStyle:block",
       "imageStyle:side",
-      "|",
+      "imageStyle:wrapText",
+      "imageStyle:breakText",
       "imageTextAlternative",
+      "toggleImageCaption",
+    ],
+  },
+  table: {
+    contentToolbar: [
+      "tableColumn",
+      "tableRow",
+      "mergeTableCells",
+      "toggleTableCaption",
+      "tableCellProperties",
+      "tableProperties",
     ],
   },
   allowedContent: true,
@@ -76,15 +127,6 @@ var editorConfig = {
         },
       },
     },
-  },
-  table: {
-    contentToolbar: [
-      "tableColumn",
-      "tableRow",
-      "mergeTableCells",
-      "tableCellProperties",
-      "tableProperties",
-    ],
   },
   heading: {
     options: [
@@ -148,8 +190,6 @@ const EditableArea: React.FC<Props> = ({ truncate, style, pathname, guid }) => {
     );
     if (editableArea) {
       setValues({ ...values, data: editableArea.data });
-    } else {
-      // TODO: create editable area in db
     }
   }, [editableAreas]);
 
@@ -158,17 +198,13 @@ const EditableArea: React.FC<Props> = ({ truncate, style, pathname, guid }) => {
     setValues({ ...values, link: e.target.value });
   };
 
-  // add truncate functions to the Class string. AK not sure if this is Class?
-
-  if (!Object.getPrototypeOf(String).countWords) {
-    String.prototype.truncateWords = function (wordCount: number): string {
-      if (this.split(" ").length > wordCount) {
-        return this.split(" ").slice(0, wordCount).join(" ") + "...";
-      } else {
-        return this.toString();
-      }
-    };
-  }
+  String.prototype.truncateWords = function (wordCount: number): string {
+    if (this.split(" ").length > wordCount) {
+      return this.split(" ").slice(0, wordCount).join(" ") + "...";
+    } else {
+      return this.toString();
+    }
+  };
 
   if (isEdit) {
     return (
@@ -184,7 +220,7 @@ const EditableArea: React.FC<Props> = ({ truncate, style, pathname, guid }) => {
         <CKEditor
           data-pathname={pathname}
           id={guid}
-          className={`editableAreaContainer ${guid}`}
+          className={`editable-area-container ${guid}`}
           editor={InlineEditor}
           config={editorConfig}
           data={data}
@@ -192,6 +228,8 @@ const EditableArea: React.FC<Props> = ({ truncate, style, pathname, guid }) => {
             setValues({ ...values, data: editor.getData() });
           }}
           onReady={(editor: typeof CKeditorMain): void => {
+            // use this console log to get a list of all the editor tollbar items
+            //console.log(Array.from(editor.ui.componentFactory.names()));
             editor.plugins.get("FileRepository").createUploadAdapter =
               (loader: {
                 file: File;
@@ -206,7 +244,7 @@ const EditableArea: React.FC<Props> = ({ truncate, style, pathname, guid }) => {
     );
   } else {
     return (
-      <Link to={link || "#"} className={`editableAreaContainer ${guid}`}>
+      <Link to={link || "#"} className={`editable-area-container ${guid}`}>
         <article
           dangerouslySetInnerHTML={{
             __html: truncate ? data.truncateWords(truncate) : data,
@@ -231,9 +269,7 @@ class MyUploadAdapter {
     this.loader = loader;
 
     // URL where to send files.
-    this.url = `${
-      process.env.REACT_APP_API
-    }/editable-area/upload-image?token=${"/somethinggoeshere"}`;
+    this.url = `/editable-area/upload-image?token=${"/somethinggoeshere"}`;
   }
 
   // Starts the upload process.

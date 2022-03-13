@@ -1,3 +1,4 @@
 declare interface String {
-    truncateWords(wordCount: number) : string;
+  truncateWords(wordCount: number): string;
+  isVideo(): boolean;
 }

@@ -23,13 +23,13 @@ const TextField: React.FC<Props> = ({
   onChange,
 }) => {
   return (
-    <div className={"form__group"}>
+    <div className={"form-group"}>
       <input
         type={type}
         id={id}
         value={value}
         onChange={onChange}
-        className={"form__field"}
+        className={"form-field"}
         placeholder={placeholder}
         min={min}
         max={max}

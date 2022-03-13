@@ -1,15 +1,17 @@
-.editableAreaContainer {
+.editable-area-container {
   position: relative;
 }
 
 article {
   position: relative;
+
   input {
     position: absolute;
     max-width: 200px;
     transition: ease-in-out 0.5s;
     top: 18px;
   }
+
   input:focus {
     transition: 0.5s ease-in-out !important;
     color: black !important;
@@ -22,23 +24,32 @@ article {
   }
 
   button:active {
-    background-color: rgb(0, 204, 0) !important;
+    background-color: #0c0 !important;
     color: black;
     transition: ease-in-out 0.5s;
   }
 
+  /* stylelint-disable */
   .ck.ck-editor__editable_inline {
     background-color: white;
     position: relative;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: #00000059 0 5px 15px;
     padding-top: 1.5em;
     z-index: 2;
     top: -20px;
   }
+  /* stylelint-enable */
 }
 
-.form__group {
+.form-group {
   top: -5px;
   z-index: 3;
   position: relative;
 }
+
+/* stylelint-disable */
+.ck.ck-toolbar-dropdown .ck.ck-toolbar .ck.ck-toolbar__items {
+  flex-wrap: wrap !important;
+  max-width: 100px !important;
+}
+/* stylelint-enable */

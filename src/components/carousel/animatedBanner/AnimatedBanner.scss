@@ -1,11 +1,11 @@
-.bannerEditorButtons {
+.banner-editor-buttons {
   display: flex;
   justify-content: center;
   position: relative;
   top: -5px;
 
   button {
-    background-color: rgb(0, 0, 0);
+    background-color: #000;
     color: white;
   }
 
@@ -18,12 +18,16 @@
     background-color: black;
   }
 
-  .form__group {
+  .form-group {
     top: -15px;
     position: relative;
   }
 
   * {
-    margin: 0px 2px;
+    margin: 0 2px;
   }
+}
+
+video {
+  pointer-events: none;
 }

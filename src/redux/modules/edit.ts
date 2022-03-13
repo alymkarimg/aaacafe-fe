@@ -2,6 +2,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { DispatcherProps } from "../types";
 import { Auth } from "..";
 import axios from "axios";
+import fire from "../../assets/fire.mp4";
 
 /**
  * Type declarations
@@ -47,6 +48,7 @@ export const initialState: StateProps = {
   error: null,
   edit: false,
   editableAreas: [],
+  // animatedBanners: [],
   animatedBanners: [
     {
       pathname: "/",
@@ -55,8 +57,7 @@ export const initialState: StateProps = {
       slidesPerPage: 1,
       items: [
         {
-          media:
-            "https://images.pexels.com/photos/7919366/pexels-photo-7919366.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+          media: fire,
         },
         {
           media:

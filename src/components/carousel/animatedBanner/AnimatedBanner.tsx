@@ -1,13 +1,14 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import "./AnimatedBanner.scss";
 import Carousel, { CarouselItem } from "../Carousel";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { State } from "../../../redux";
 import { useLocation } from "react-router";
 import { IAnimatedBannerItem } from "../../../redux/modules/edit";
 import EditableArea from "../../editableArea/EditableArea";
 import Button from "../../button/Button";
 import TextField from "../../textfield/Textfield";
+import { addToast } from "../../../redux/modules/toast";
 
 interface Props {
   guid: string;
@@ -16,6 +17,25 @@ interface Props {
 }
 
 const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
+  // TODO: Check this isVideo function
+  String.prototype.isVideo = function (): boolean {
+    function getExtension(path: string): string {
+      var basename = path.split(/[\\/]/).pop(), // extract file name from full path ...
+        // (supports `\\` and `/` separators)
+        pos = basename!.lastIndexOf("."); // get last position of `.`
+
+      if (basename === "" || pos < 1)
+        // if file name is empty or ...
+        return ""; //  `.` not found (-1) or comes first (0)
+
+      return basename!.slice(pos + 1); // extract extension ignoring `.`
+    }
+
+    if (getExtension(this.toString()) === "mp4") return true;
+    else return false;
+  };
+
+  const dispatch = useDispatch();
   const AnimatedBanners = useSelector(
     (state: State) => state.edit
   ).animatedBanners;
@@ -31,7 +51,7 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
     slidesPerPage?: number;
     autoplay: number;
   }>({
-    items: [],
+    items: [{}],
     url: pathname ? pathname : location.pathname,
     activeIndex: 0,
     slidesPerPage: 1,
@@ -40,9 +60,11 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
 
   const { items, activeIndex, url, slidesPerPage, autoplay } = values;
 
+  const [videoLoading, setVideoLoading] = useState(false);
+
   // find data from array of models and populate on page load
   useEffect(() => {
-    const animatedBanner = AnimatedBanners.find((q) => {
+    let animatedBanner = AnimatedBanners.find((q) => {
       return q.pathname === url && q.guid === guid;
     });
     if (animatedBanner) {
@@ -52,8 +74,6 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
         slidesPerPage: animatedBanner.slidesPerPage,
         autoplay: animatedBanner.autoplay,
       });
-    } else {
-      // TODO: create animated banner in db
     }
   }, [AnimatedBanners]);
 
@@ -79,7 +99,15 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
         items: newItems,
       });
     } else {
-      // TODO: add UI message informing user that current slide cannot be deleted
+      dispatch(
+        addToast(
+          "test",
+          "test",
+          "warning",
+          "Cannot delete slide",
+          "Cannot delete the only remaining slide"
+        )
+      );
     }
   };
 
@@ -94,13 +122,11 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
   const handleChangeSlidesPerPage = (
     e: ChangeEvent<HTMLInputElement>
   ): void => {
-    // TODO: check that max slides is working as intended
     setValues({
       ...values,
-      slidesPerPage:
-        parseInt(e.target.value, 10) > 0 && parseInt(e.target.value, 10) <= 25
-          ? parseInt(e.target.value, 10)
-          : undefined,
+      slidesPerPage: parseInt(e.target.value, 10)
+        ? parseInt(e.target.value, 10)
+        : undefined,
       activeIndex: 0,
     });
   };
@@ -117,35 +143,55 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
         index={activeIndex}
         autoplay={isEdit ? 0 : autoplay ? autoplay : 0}
       >
-        {/* TODO: add support for video format */}
         {items.map((q: IAnimatedBannerItem, index: number) => {
           const backgroundImage = "https://via.placeholder.com/1500";
           return (
-            <CarouselItem key={`carouselItem ${guid} ${index}`}>
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "none",
-                  backgroundImage: q.media
-                    ? "url(" + q.media + ")"
-                    : "url(" + backgroundImage + ")",
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                }}
-              />
+            <CarouselItem
+              style={{ alignItems: "unset" }}
+              key={`carouselItem ${guid} ${index}`}
+            >
+              {q.media?.isVideo() && (
+                <video
+                  loop
+                  width={"100%"}
+                  autoPlay
+                  muted
+                  style={{ objectFit: "cover" }}
+                >
+                  <source src={q.media} type="video/webm" />
+                  <p>Sorry, your browser does not support embedded videos.</p>
+                </video>
+              )}
+
+              {!q.media?.isVideo() && (
+                <div
+                  style={{
+                    width: "100%",
+                    minHeight: "100%",
+                    objectFit: "cover",
+                    backgroundImage: q.media
+                      ? "url(" + q.media + ")"
+                      : "url(" + backgroundImage + ")",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                />
+              )}
               <div
                 style={{
                   position: "absolute",
+                  top: "40%",
                 }}
               >
                 {index + 1}
-                <EditableArea
-                  guid={`banner ${index} ${guid} `}
-                  // TODO: check why I need to give the editable area a color??
-                  style={{ minWidth: "100px", color: "black" }}
-                />
+                {(slidesPerPage == undefined || slidesPerPage <= 10) && (
+                  <EditableArea
+                    guid={`banner ${index} ${guid} `}
+                    // TODO: check why I need to give the editable area a color??
+                    style={{ minWidth: "100px", color: "black" }}
+                  />
+                )}
               </div>
             </CarouselItem>
           );
@@ -153,7 +199,7 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
       </Carousel>
       {isEdit && (
         <div>
-          <div className="bannerEditorButtons">
+          <div className="banner-editor-buttons">
             {/* Add media uploader functionaility */}
             <Button title="Upload Media" onClick={uploadMedia} />
             <Button title="Add Slide" onClick={addSlide} />

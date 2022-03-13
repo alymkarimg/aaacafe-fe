@@ -38,6 +38,7 @@ const Carousel: React.FC<CarouselProps> = ({
   slidesPerPage = 1,
   updateAnimatedBannerIndex = undefined,
 }) => {
+  const length = React.Children.toArray(children).length;
   const [activeIndex, setActiveIndex] = useState(index ? index : 0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [paused, setPaused] = useState(autoplay ? false : true);
@@ -52,9 +53,6 @@ const Carousel: React.FC<CarouselProps> = ({
     updateAnimatedBannerIndex ? updateAnimatedBannerIndex(newIndex) : undefined;
     setActiveIndex(newIndex);
 
-    const length = React.Children.toArray(children).length;
-
-    // TODO: Refactor this and make it much neater
     if (slidesPerPage != 1) {
       let imageIndex = newIndex;
 
@@ -134,27 +132,32 @@ const Carousel: React.FC<CarouselProps> = ({
           }}
         >
           {React.Children.map(children, (child, index) => {
-            return React.cloneElement(child as React.ReactElement, {
-              style: {
-                height: "calc(100%)",
-                width: `calc(${(1 / slidesPerPage) * 100}%)`,
-                border:
-                  isEdit && index === activeIndex
-                    ? "5px solid yellow"
-                    : undefined,
-              },
-            });
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child, {
+                style: {
+                  ...child.props.style,
+                  height: "calc(100%)",
+                  width: `calc(${(1 / slidesPerPage) * 100}%)`,
+                  border:
+                    isEdit && index === activeIndex
+                      ? "5px solid yellow"
+                      : undefined,
+                },
+              });
+            }
           })}
         </div>
-        <Button
-          title="<"
-          className="left-indicator"
-          onClick={(): void => {
-            updateIndex(activeIndex - 1);
-          }}
-        >
-          Prev
-        </Button>
+        {length / slidesPerPage > 1 && (
+          <Button
+            title="<"
+            className="left-indicator"
+            onClick={(): void => {
+              updateIndex(activeIndex - 1);
+            }}
+          >
+            Prev
+          </Button>
+        )}
         <div className="indicators">
           {React.Children.map(children, (child, index) => {
             if (isEdit || index <= length - slidesPerPage)
@@ -169,15 +172,17 @@ const Carousel: React.FC<CarouselProps> = ({
               );
           })}
         </div>
-        <Button
-          title=">"
-          className="right-indicator"
-          onClick={(): void => {
-            updateIndex(activeIndex + 1);
-          }}
-        >
-          Next
-        </Button>
+        {length / slidesPerPage > 1 && (
+          <Button
+            title=">"
+            className="right-indicator"
+            onClick={(): void => {
+              updateIndex(activeIndex + 1);
+            }}
+          >
+            Next
+          </Button>
+        )}
       </div>
     );
   return <div>Banner wont work with 0 slides per page</div>;
