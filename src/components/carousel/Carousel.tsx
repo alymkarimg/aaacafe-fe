@@ -52,31 +52,26 @@ const Carousel: React.FC<CarouselProps> = ({
     updateAnimatedBannerIndex ? updateAnimatedBannerIndex(newIndex) : undefined;
     setActiveIndex(newIndex);
 
+    const length = React.Children.toArray(children).length;
+
     // TODO: Refactor this and make it much neater
     if (slidesPerPage != 1) {
       let imageIndex = newIndex;
 
       // handle empty spaces
-      if (
-        !isEdit &&
-        newIndex > React.Children.toArray(children).length - slidesPerPage &&
-        newIndex != 0
-      ) {
+      if (!isEdit && newIndex > length - slidesPerPage && newIndex != 0) {
         imageIndex = 0;
         setActiveIndex(0);
-      } else if (
-        !isEdit &&
-        newIndex < React.Children.toArray(children).length - slidesPerPage
-      ) {
-        imageIndex === React.Children.toArray(children).length - slidesPerPage;
+      } else if (!isEdit && newIndex < length - slidesPerPage) {
+        imageIndex === length - slidesPerPage;
       }
 
       if (
         isEdit === true &&
-        newIndex >= React.Children.toArray(children).length - slidesPerPage &&
+        newIndex >= length - slidesPerPage &&
         newIndex != 0
       ) {
-        imageIndex = React.Children.toArray(children).length - slidesPerPage;
+        imageIndex = length - slidesPerPage;
       }
 
       setActiveImageIndex(imageIndex);
@@ -95,9 +90,8 @@ const Carousel: React.FC<CarouselProps> = ({
       const interval = setInterval(() => {
         if (!paused) {
           updateIndex(
-            activeIndex >
-              React.Children.toArray(children).length - slidesPerPage
-              ? React.Children.toArray(children).length - slidesPerPage
+            activeIndex > length - slidesPerPage
+              ? length - slidesPerPage
               : activeIndex + 1
           );
         }
@@ -163,10 +157,7 @@ const Carousel: React.FC<CarouselProps> = ({
         </Button>
         <div className="indicators">
           {React.Children.map(children, (child, index) => {
-            if (
-              isEdit ||
-              index <= React.Children.toArray(children).length - slidesPerPage
-            )
+            if (isEdit || index <= length - slidesPerPage)
               return (
                 <Button
                   title={(index + 1).toString()}
