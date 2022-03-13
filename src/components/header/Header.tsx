@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { State } from "../../redux";
 import "./Header.scss";
 import { toggleEditMode } from "../../redux/modules/edit";
-import { saveAllEditableAreas } from "../../redux/modules/edit";
+import {
+  saveAllEditableAreas,
+  saveAllAnimatedBanners,
+} from "../../redux/modules/edit";
 
 const Header = (): React.ReactElement => {
   const location = useLocation();
@@ -38,6 +41,9 @@ const Header = (): React.ReactElement => {
 
             // save all editable areas
             dispatch(saveAllEditableAreas("test", "test"));
+
+            // save all animatedBanners
+            dispatch(saveAllAnimatedBanners("test", "test"));
 
             // TODO: append ?edit=true to querystring
           }}
