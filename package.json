@@ -30,7 +30,7 @@
   "scripts": {
     "postinstall": "husky install",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "lint:ts": "eslint . --ext .tsx --ext .ts",
     "lint:scss": "npx stylelint **/*.scss",
     "test": "react-scripts test",

@@ -20,7 +20,7 @@ const AnimatedBanner: React.FC<Props> = ({ guid, pathname, style }) => {
   // TODO: Check this isVideo function
   String.prototype.isVideo = function (): boolean {
     function getExtension(path: string): string {
-      var basename = path.split(/[\\/]/).pop(), // extract file name from full path ...
+      const basename = path.split(/[\\/]/).pop(), // extract file name from full path ...
         // (supports `\\` and `/` separators)
         pos = basename!.lastIndexOf("."); // get last position of `.`
 

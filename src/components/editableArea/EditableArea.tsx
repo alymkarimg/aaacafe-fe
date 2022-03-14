@@ -16,7 +16,7 @@ import TextField from "../textfield/Textfield";
 
 const { CKEditor } = CKeditorMain;
 
-var editorConfig = {
+const editorConfig = {
   toolbar: [
     // "simpleBox",
     "alignment",
