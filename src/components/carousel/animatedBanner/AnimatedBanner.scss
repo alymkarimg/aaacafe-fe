@@ -1,0 +1,33 @@
+.banner-editor-buttons {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: -5px;
+
+  button {
+    background-color: #000;
+    color: white;
+  }
+
+  input::placeholder {
+    color: transparent;
+  }
+
+  input {
+    color: white;
+    background-color: black;
+  }
+
+  .form-group {
+    top: -15px;
+    position: relative;
+  }
+
+  * {
+    margin: 0 2px;
+  }
+}
+
+video {
+  pointer-events: none;
+}

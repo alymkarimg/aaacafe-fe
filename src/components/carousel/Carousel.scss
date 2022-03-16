@@ -1,0 +1,42 @@
+.carousel {
+  overflow: hidden;
+  position: relative;
+}
+
+.inner {
+  white-space: nowrap;
+  transition: transform 0.3s;
+}
+
+.carousel-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  box-sizing: border-box;
+}
+
+.indicators {
+  display: flex;
+  justify-content: center;
+  bottom: 20px;
+  position: absolute;
+  align-items: center;
+  width: 100%;
+}
+
+.left-indicator,
+.right-indicator {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+}
+
+.right-indicator {
+  right: 0;
+}
+
+button.active {
+  background-color: green;
+}

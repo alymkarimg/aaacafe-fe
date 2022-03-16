@@ -1,0 +1,57 @@
+.editable-area-container {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+}
+
+article {
+  position: relative;
+
+  input {
+    position: absolute;
+    max-width: 200px;
+    transition: ease-in-out 0.5s;
+    top: 18px;
+  }
+
+  input:focus {
+    transition: 0.5s ease-in-out !important;
+    color: black !important;
+    background-color: white !important;
+    border-radius: 0%;
+  }
+
+  input::placeholder {
+    color: white;
+  }
+
+  button:active {
+    background-color: #0c0 !important;
+    color: black;
+    transition: ease-in-out 0.5s;
+  }
+
+  /* stylelint-disable */
+  .ck.ck-editor__editable_inline {
+    background-color: white;
+    position: relative;
+    box-shadow: #00000059 0 5px 15px;
+    padding-top: 1.5em;
+    z-index: 2;
+    top: -20px;
+  }
+  /* stylelint-enable */
+}
+
+.form-group {
+  top: -5px;
+  z-index: 3;
+  position: relative;
+}
+
+/* stylelint-disable */
+.ck.ck-toolbar-dropdown .ck.ck-toolbar .ck.ck-toolbar__items {
+  flex-wrap: wrap !important;
+  max-width: 100px !important;
+}
+/* stylelint-enable */

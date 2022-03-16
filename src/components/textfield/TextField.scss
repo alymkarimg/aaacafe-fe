@@ -1,0 +1,54 @@
+.form-group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+}
+
+.form-field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  font-size: 16px;
+  padding: 8.5px 0;
+  background: #000 !important;
+  border-radius: 5px;
+  transition: border-color 0.2s;
+}
+
+.form-field:hover {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  font-size: 16px;
+  color: #fff;
+  padding: 8.5px 0;
+  background: #098105;
+  border-radius: 5px;
+  transition: border-color 0.2s;
+}
+
+.form-field::placeholder {
+  color: #f1f1f1;
+}
+
+.form-field::placeholder ~ .form-label {
+  display: none;
+}
+
+.form-field:placeholder-shown ~ .form-label {
+  font-size: 16px;
+  cursor: text;
+  color: transparent;
+  background-color: white;
+}
+
+.form-field:focus ~ .form-label {
+  color: #009788;
+}
+
+.form-field:focus {
+  padding-bottom: 6px;
+  border-bottom: 2px solid #03c52d;
+}
