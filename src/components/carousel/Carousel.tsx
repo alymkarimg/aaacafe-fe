@@ -38,49 +38,59 @@ const Carousel: React.FC<CarouselProps> = ({
   slidesPerPage = 1,
   updateAnimatedBannerIndex = undefined,
 }) => {
-  const length = React.Children.toArray(children).length;
+  const length = React.Children.count(children);
   const [activeIndex, setActiveIndex] = useState(index ? index : 0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [paused, setPaused] = useState(autoplay ? false : true);
 
   const updateIndex = (newIndex: number): void => {
+    const oldIndex = newIndex;
     if (newIndex < 0) {
-      newIndex = React.Children.count(children) - 1;
-    } else if (newIndex >= React.Children.count(children)) {
+      newIndex = length - 1;
+    } else if (newIndex >= length) {
       newIndex = 0;
     }
 
     updateAnimatedBannerIndex ? updateAnimatedBannerIndex(newIndex) : undefined;
     setActiveIndex(newIndex);
 
-    if (slidesPerPage != 1) {
-      let imageIndex = newIndex;
+    let imageIndex = newIndex;
 
-      // handle empty spaces
-      if (!isEdit && newIndex > length - slidesPerPage && newIndex != 0) {
-        imageIndex = 0;
-        setActiveIndex(0);
-      } else if (!isEdit && newIndex < length - slidesPerPage) {
-        imageIndex === length - slidesPerPage;
-      }
-
-      if (
-        isEdit === true &&
-        newIndex >= length - slidesPerPage &&
-        newIndex != 0
-      ) {
-        imageIndex = length - slidesPerPage;
-      }
-
-      setActiveImageIndex(imageIndex);
-
-      if (newIndex === 0) {
-        setActiveIndex(0);
-      }
-    } else {
-      // handle single slide case
-      setActiveImageIndex(newIndex);
+    // handle empty spaces
+    if (
+      isEdit &&
+      newIndex > length - slidesPerPage &&
+      newIndex <= length &&
+      slidesPerPage !== 1
+    ) {
+      imageIndex = length - slidesPerPage;
     }
+
+    if (
+      !isEdit &&
+      newIndex > length - slidesPerPage &&
+      newIndex <= length &&
+      slidesPerPage !== 1 &&
+      oldIndex != -1
+    ) {
+      imageIndex = 0;
+      setActiveIndex(0);
+      updateAnimatedBannerIndex ? updateAnimatedBannerIndex(0) : undefined;
+    } else if (
+      !isEdit &&
+      newIndex > length - slidesPerPage &&
+      newIndex <= length &&
+      slidesPerPage !== 1 &&
+      oldIndex === -1
+    ) {
+      imageIndex = length - slidesPerPage;
+      setActiveIndex(length - slidesPerPage);
+      updateAnimatedBannerIndex
+        ? updateAnimatedBannerIndex(length - slidesPerPage)
+        : undefined;
+    }
+
+    setActiveImageIndex(imageIndex);
   };
 
   useEffect(() => {
@@ -136,7 +146,7 @@ const Carousel: React.FC<CarouselProps> = ({
               return React.cloneElement(child, {
                 style: {
                   ...child.props.style,
-                  height: "calc(100%)",
+                  height: "calc(100% - 5px)",
                   width: `calc(${(1 / slidesPerPage) * 100}%)`,
                   border:
                     isEdit && index === activeIndex
@@ -160,7 +170,7 @@ const Carousel: React.FC<CarouselProps> = ({
         )}
         <div className="indicators">
           {React.Children.map(children, (child, index) => {
-            if (isEdit || index <= length - slidesPerPage)
+            if (isEdit || index <= length - slidesPerPage) {
               return (
                 <Button
                   title={(index + 1).toString()}
@@ -170,6 +180,7 @@ const Carousel: React.FC<CarouselProps> = ({
                   }}
                 />
               );
+            }
           })}
         </div>
         {length / slidesPerPage > 1 && (

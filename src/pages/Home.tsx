@@ -54,7 +54,7 @@ const Home = (): React.ReactElement => {
           guid="homepage_banner"
           style={{ height: "500px", width: "100%" }}
         />
-        <Carousel style={{ height: "100px" }} autoplay={5000} slidesPerPage={3}>
+        <Carousel style={{ height: "100px" }} autoplay={0} slidesPerPage={3}>
           <CarouselItem>Item1</CarouselItem>
           <CarouselItem>Item2</CarouselItem>
           <CarouselItem>Item3</CarouselItem>
